@@ -14,5 +14,7 @@ module.exports = new Sequelize(
     // dialectOptions: {
     //   "ssl": {"require":true }
     // }
+
+
   }
 );

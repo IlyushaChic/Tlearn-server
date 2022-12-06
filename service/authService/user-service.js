@@ -1,10 +1,10 @@
-const {User} = require('../../models/user-model');
-const bcrypt = require('bcrypt');
+const {User} = require('../../models/authModels/user-model');
 const mailService = require('./mail-service');
 const tokenService = require('./token-service');
 const UserDto = require('../../dtos/user-dto');
 const ApiError = require('../../exceptions/api-error');
-const { Token } = require('../../models/token-model');
+const { Token } = require('../../models/authModels/token-model');
+const { TUState } = require('../../models/usersModels/stateUser-model');
 
 
 class UserService {
@@ -17,7 +17,7 @@ class UserService {
     if (!validateEmail) {
       throw ApiError.BadRequest("Неккоректная почта");
     }
-    const activationLink = await mailService.getRandomNumber();//!!!!! добавить метод
+    const activationLink = await mailService.getRandomNumber();
     await User.create({ email, activationLink });
     await mailService.sendActivationMail(email, activationLink);
   }

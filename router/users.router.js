@@ -4,6 +4,8 @@ const Router = require('express').Router;
 const userRouter = new Router();
 
 
+
+
 userRouter.get('',userController.getUsers);
 
 userRouter.get(`/id`,userController.getUserOne);
@@ -13,6 +15,15 @@ userRouter.get(`/id`,userController.getUserOne);
 // rouuserRouterter.post('/activate', userController.activate);
 // userRouter.get('/refresh', userController.refresh);
 // userRouter.get('/users',authMiddleware,  userController.getUsers);
+
+
+
+
+
+userRouter.get('/fakedata',userController.getFakeData)
+
+
+
 
 
 

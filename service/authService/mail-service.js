@@ -9,10 +9,10 @@ class MailService {
             port: process.env.SMTP_PORT, 
             secure: false,
             auth: {
-                user:"ilasinelko@gmail.com" ,
-//process.env.SMTP_USER
-                pass: "stcyzthnctdwczcu"
-//process.env.SMTP_PASSWORD
+                user:process.env.SMTP_USER ,
+//"ilasinelko@gmail.com"
+                pass: process.env.SMTP_PASSWORD
+//"stcyzthnctdwczcu"
             }
         })
     }
@@ -41,8 +41,8 @@ async validateEmailAddres(tinkoff) {
 
 async sendActivationMail(to, registrationNumber) {
                   await this.transporter.sendMail({
-            from:"ilasinelko@gmail.com",
-            // process.env.SMTP_USER
+            from:process.env.SMTP_USER,
+            //"ilasinelko@gmail.com"
             to,
             subject: 'Активация аккаунта на ' + process.env.API_URL,
             text: '',

@@ -3,14 +3,13 @@ const router = new Router()
 const authRouter =require('./authorization.router')
 const userRouter =require('./users.router')
 const dictionaryRouter =require('./dictionary.router')
+const authMiddleware=require('../middleware/ayth-middleware')
 
 
 router.use('/auth',authRouter)
-router.use('/dictionary',dictionaryRouter)
-router.use('/users',userRouter)
 
-//router.get('/users',authMiddleware,  userController.getUsers); 
-//! добавить в сервисы и юзеры после того как все напишу и потом проверить 
+router.use('/dictionary',authMiddleware,dictionaryRouter)
+router.use('/users',authMiddleware,userRouter)
+
 
 module.exports=router
-

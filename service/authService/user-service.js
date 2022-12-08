@@ -4,13 +4,9 @@ const tokenService = require('./token-service');
 const UserDto = require('../../dtos/user-dto');
 const ApiError = require('../../exceptions/api-error');
 const { Token } = require('../../models/authModels/token-model');
-const { TUState } = require('../../models/usersModels/stateUser-model');
 
 
 class UserService {
-
-
-
   async login(email) {    
     const validateEmail = await mailService.validateEmailAddres(email);
     if (!validateEmail) {

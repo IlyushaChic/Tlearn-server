@@ -5,7 +5,7 @@ class DicktionaryController {
   async addDictionary(req, res, next) {
     try {
       const { header } = req.body;
-      const { dictionarys } = req.file;
+      const { dictionarys } = req.files;
       await dictionaryService.addDictionary(header, dictionarys);
       return res.json(header);
     } catch (error) {

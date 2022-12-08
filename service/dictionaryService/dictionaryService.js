@@ -4,6 +4,9 @@ const { Card } = require("../../models/dictionaryModals/card-model");
 const { CardCollection } = require("../../models/dictionaryModals/cardCollection-model");
 const { CardTranslation } = require("../../models/dictionaryModals/cardTranslation-model");
 
+const uuid= require('uuid')
+const path= require('path')
+
 class DictionaryService {
   async addDictionary(header, dictionarys) {
     const NOUN = "NOUN";
@@ -49,18 +52,22 @@ class DictionaryService {
     };
 
     const testCollection = await CardCollection.create({ name: `${header}` });
-
-    fs.createReadStream(`${dictionarys.name}`)
+    const path1=path.resolve(__dirname,'.','',dictionarys.name)
+    await dictionarys.mv(path1)
+    fs.createReadStream(`${path1}`)
       .pipe(csv())
-      .on("data", (data) => results1.push(data))
+      .on("data", (dat) => {  results1.push(dat)})
       .on("end", () => {
-        results1.map((elem) => {
-          Card.create({ word: elem.Word, transcription: elem.Transcription, type: wordType(elem.Type), collection_id: testCollection.id,  })
+          results1.map((elem) => {
+            Card.create({ word: elem.Word, transcription: elem.Transcription, type: wordType(elem.Type), collection_id: testCollection.id,  })
           .then((card) => {
             CardTranslation.create({word: elem.Translation, card_id: card.id });
           });
-        });
-      });
+        }        
+        )})
+      setTimeout(() => {
+      fs.unlink(path1,()=>{})
+      }, 0)
     return;
   }
 

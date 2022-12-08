@@ -9,5 +9,4 @@ userRouter.get('',userController.getUsers);
 userRouter.get('/:id',userController.getUserOne);
 
 
-
 module.exports = userRouter

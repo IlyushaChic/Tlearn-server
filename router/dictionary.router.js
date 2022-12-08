@@ -1,20 +1,10 @@
-const dicktionaryController = require('../controllers/dicktionaryController');
-
-const Router = require('express').Router;
+const dicktionaryController = require("../controllers/dicktionaryController");
+const Router = require("express").Router;
 const dictionaryRouter = new Router();
 
 
-dictionaryRouter.get('',(req,res)=>{
-  res.send('dictionaryRouter')});
+dictionaryRouter.post("/add", dicktionaryController.addDictionary);
+dictionaryRouter.delete("/remove", dicktionaryController.removeDictionary);//удалять по названию таблицы
+dictionaryRouter.patch("/update", dicktionaryController.updateDictionary);//обновление  по названию таблицы ,изменить можно только название таблицы
 
-
-  dictionaryRouter.post('/add',dicktionaryController.addDictionary);
-  dictionaryRouter.delete('/remove',dicktionaryController.removeDictionary);
-  dictionaryRouter.post('/update',dicktionaryController.updateDictionary);
-  
-
-
-
-
-
-module.exports = dictionaryRouter
+module.exports = dictionaryRouter;

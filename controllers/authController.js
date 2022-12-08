@@ -13,17 +13,13 @@ class AuthController {
       }
 
       const { email } = req.body;
-      const userData = await userService.login(email);
-
-      //   res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-      //! Будем делать при активации а не логине
+      await userService.login(email);
       return res.json(`Код активвации успешно отправлен на почту: ` + email);
     } catch (error) {
       next(error);
     }
   }
 
-  // пост запрос в который нужно положить 6-ти значный код
   async activate(req, res, next) {
     try {
       const { activationLink } = req.body;

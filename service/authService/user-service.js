@@ -11,8 +11,7 @@ class UserService {
 
 
 
-  async login(email) {
-    
+  async login(email) {    
     const validateEmail = await mailService.validateEmailAddres(email);
     if (!validateEmail) {
       throw ApiError.BadRequest("Неккоректная почта");
@@ -21,8 +20,7 @@ class UserService {
     await User.create({ email, activationLink });
     await mailService.sendActivationMail(email, activationLink);
   }
-  
-  
+
   async activate(activationLink) {
     const user = await User.findOne({
       where: { activationLink: activationLink },
@@ -37,8 +35,6 @@ class UserService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };
   }
-  
-  
 
   async logout(refreshToken) {
     const user_token = await Token.findOne({
@@ -68,7 +64,6 @@ class UserService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };
   }
-
 }
 
 module.exports = new UserService();

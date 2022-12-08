@@ -5,11 +5,9 @@ const userRouter =require('./users.router')
 const dictionaryRouter =require('./dictionary.router')
 
 
-router.use('/auth',authRouter) //! готово
+router.use('/auth',authRouter)
 router.use('/dictionary',dictionaryRouter)
-
-router.use('/users',userRouter)// фейковые данные тут лежат 
-
+router.use('/users',userRouter)
 
 //router.get('/users',authMiddleware,  userController.getUsers); 
 //! добавить в сервисы и юзеры после того как все напишу и потом проверить 

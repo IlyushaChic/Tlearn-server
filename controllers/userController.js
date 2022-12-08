@@ -1,77 +1,33 @@
-const ApiError = require('../exceptions/api-error');
+const usersService = require("../service/usersService/usersService");
 
-const Card =require('../models/dictionaryModals/card-model')
-const CardCollection =require('../models/dictionaryModals/cardCollection-model')
-const Translation =require('../models/dictionaryModals/cardTranslation-model')
+class UserController {
+  async getFakeData(req, res, next) {
+    try {
+      const fakeData = await usersService.fakeDataGenerate();
+      return res.json(fakeData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-const CUProgress= require('../models/usersModels/cardUserProgress-model')
-const TUState= require('../models/usersModels/stateUser-model')
-const TUser= require('../models/usersModels/users-model');
+  async getUsers(req, res, next) {
+    try {
+      const TlearnUser = await usersService.getAllUsers();
+      return res.json(TlearnUser);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-
-const usersService = require('../service/usersService/fakeData');
-
-
-
-
-
-class UserController{
-
-async getFakeData(req,res,next){
-
- 
-  try {
-
-    
-    const fakeData = await usersService.fakeDataGenerate()
-
-
-    return res.json(fakeData);
-
-
-
-    
-  } catch (error) {
-    console.log(error);
-    
+  async getUserOne(req, res, next) {
+    try {
+      const { id } = req.params;
+      const userByID = await usersService.getUserById(id);
+      return res.json(userByID);
+    } catch (error) {
+      next(error);
+    }
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-async getUsers(req,res,next){
-try {
-  
-} catch (error) {
-  next(error)
-}
-}
-async getUserOne(req,res,next){
-try {
-  
-} catch (error) {
-  next(error)
-}
-}
-
-
-
-
-
-
-}
-
-
-module.exports= new UserController()
+module.exports = new UserController();

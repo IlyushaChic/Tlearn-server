@@ -12,11 +12,13 @@ const app = express();
 
 //прописывать хост фронтенда
 app.use(
-  cors({
-    //  credentials:true,
-    //  origin: process.env.CLIENT_URL
-    //"http://localhost:3000"
-  })
+  cors(
+  //   {
+  //    credentials:true,
+  //    origin: process.env.CLIENT_URL
+  // //  "http://localhost:3000"
+  // }
+  )
 );
 app.use(express.json());
 app.use(fileUpoad({}))

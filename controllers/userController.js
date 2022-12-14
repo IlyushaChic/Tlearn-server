@@ -28,6 +28,15 @@ class UserController {
       next(error);
     }
   }
+  async getUserOneData (req, res, next) {
+    try {
+      const { id } = req.params;
+      const userByIDData = await usersService.getUserDataById(id);
+    return res.json(userByIDData);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new UserController();

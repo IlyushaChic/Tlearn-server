@@ -31,6 +31,33 @@ class DicktionaryController {
       next(error);
     }
   }
+
+  async getDictionary(req, res, next){
+    try {
+
+      
+      const dictionary =  await dictionaryService.getDictionary()
+      return res.json(dictionary)
+
+    } catch (error) {
+      next(error);
+    }
+
+  }
+
+
+  async getDictionaryDataById(req, res, next){
+    try {
+
+        const {id}= req.params
+      const dictionary =  await dictionaryService.getDictionaryDataById(id)
+      return res.json(dictionary)
+
+    } catch (error) {
+      next(error);
+    }
+
+  }
 }
 
 module.exports = new DicktionaryController();

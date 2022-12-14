@@ -1,11 +1,15 @@
 const csv = require("csv-parser");
 const fs = require("fs");
 const { Card } = require("../../models/dictionaryModals/card-model");
-const { CardCollection } = require("../../models/dictionaryModals/cardCollection-model");
-const { CardTranslation } = require("../../models/dictionaryModals/cardTranslation-model");
+const {
+  CardCollection,
+} = require("../../models/dictionaryModals/cardCollection-model");
+const {
+  CardTranslation,
+} = require("../../models/dictionaryModals/cardTranslation-model");
 
-const uuid= require('uuid')
-const path= require('path')
+const uuid = require("uuid");
+const path = require("path");
 
 class DictionaryService {
   async addDictionary(header, dictionarys) {
@@ -52,31 +56,43 @@ class DictionaryService {
     };
 
     const testCollection = await CardCollection.create({ name: `${header}` });
-    const path1=path.resolve(__dirname,'.','',dictionarys.name)
-    await dictionarys.mv(path1)
+    const path1 = path.resolve(__dirname, ".", "", dictionarys.name);
+    await dictionarys.mv(path1);
     fs.createReadStream(`${path1}`)
       .pipe(csv())
-      .on("data", (dat) => {  results1.push(dat)})
+      .on("data", (dat) => {
+        results1.push(dat);
+      })
       .on("end", () => {
-          results1.map((elem) => {
-            Card.create({ word: elem.Word, transcription: elem.Transcription, type: wordType(elem.Type), collection_id: testCollection.id,  })
-          .then((card) => {
-            CardTranslation.create({word: elem.Translation, card_id: card.id });
+        results1.map((elem) => {
+          Card.create({
+            word: elem.Word,
+            transcription: elem.Transcription,
+            type: wordType(elem.Type),
+            collection_id: testCollection.id,
+          }).then((card) => {
+            CardTranslation.create({
+              word: elem.Translation,
+              card_id: card.id,
+            });
           });
-        }        
-        )})
-      setTimeout(() => {
-      fs.unlink(path1,()=>{})
-      }, 0)
+        });
+      });
+    setTimeout(() => {
+      fs.unlink(path1, () => {});
+    }, 0);
     return;
   }
 
   async removeDictionary(header) {
-    const collection = await CardCollection.findOne({ where: { name: header }});
-    const cards = await Card.findAll({  where: { collection_id: collection.id }});
+    const collection = await CardCollection.findOne({
+      where: { name: header },
+    });
+    const cards = await Card.findAll({
+      where: { collection_id: collection.id },
+    });
     cards.map((elem) => {
-      CardTranslation.findOne({ where: { card_id: elem.id } })
-      .then((result) =>
+      CardTranslation.findOne({ where: { card_id: elem.id } }).then((result) =>
         result.destroy()
       );
     });
@@ -86,11 +102,52 @@ class DictionaryService {
   }
 
   async updateHeaderDictionary(oldHeader, newHeader) {
-    CardCollection.update(
-      { name: newHeader },
-      { where: { name: oldHeader} }
-    );
+    CardCollection.update({ name: newHeader }, { where: { name: oldHeader } });
     return "success";
+  }
+
+  async getDictionary() {
+    const body = CardCollection.findAll();
+    return body;
+  }
+
+
+
+
+
+
+
+
+//   async getUserDataById(id) {
+//     const userById = await Users.findOne({ where: {id:id}}) 
+//     const dictionaryName= await CardCollection.findOne({where:{id:userById.active_collection_id}})
+//     const cards = await Card.findAll({where:{collection_id:userById.active_collection_id}})
+//     let nElems=0
+//       cards.map(elem=>nElems++)
+//       console.log(userById.email)
+// const data ={
+//   id:userById.active_collection_id,
+//   email:userById.email,
+//   collectionName:dictionaryName.name,
+//   nElems:nElems
+// }
+//     return data;
+//   }  
+
+  async getDictionaryDataById(header) {
+
+    const bodyById = await CardCollection.findOne({ where: {id: header,}
+    
+    })
+  const cards= await Card.findAll({where:{collection_id:bodyById.id }})
+  let nElems=0
+  cards.map(elem=>nElems++)
+  const data ={
+      id:bodyById.id,
+      collectionName:bodyById.name,
+      nElems:nElems}
+  
+  return data;
   }
 }
 

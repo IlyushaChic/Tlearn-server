@@ -97,7 +97,7 @@ class DictionaryService {
       );
     });
     cards.map((elem) => elem.destroy());
-    collection.destroy();
+    await collection.destroy();
     return collection.name;
   }
 
@@ -112,27 +112,6 @@ class DictionaryService {
   }
 
 
-
-
-
-
-
-
-//   async getUserDataById(id) {
-//     const userById = await Users.findOne({ where: {id:id}}) 
-//     const dictionaryName= await CardCollection.findOne({where:{id:userById.active_collection_id}})
-//     const cards = await Card.findAll({where:{collection_id:userById.active_collection_id}})
-//     let nElems=0
-//       cards.map(elem=>nElems++)
-//       console.log(userById.email)
-// const data ={
-//   id:userById.active_collection_id,
-//   email:userById.email,
-//   collectionName:dictionaryName.name,
-//   nElems:nElems
-// }
-//     return data;
-//   }  
 
   async getDictionaryDataById(header) {
 

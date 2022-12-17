@@ -5,9 +5,9 @@ const authMiddleware=require('../middleware/ayth-middleware')
 
 dictionaryRouter.post("/add", dicktionaryController.addDictionary);
 
-dictionaryRouter.post("/remove", authMiddleware,dicktionaryController.removeDictionary);//удалять по названию таблицы
-dictionaryRouter.patch("/update", authMiddleware,dicktionaryController.updateDictionary);//обновление  по названию таблицы ,изменить можно только название таблицы
-dictionaryRouter.get('/get',authMiddleware,dicktionaryController.getDictionary)
-dictionaryRouter.get('/get/:id',authMiddleware,dicktionaryController.getDictionaryDataById)
+dictionaryRouter.post("/remove",dicktionaryController.removeDictionary);//удалять по названию таблицы
+dictionaryRouter.patch("/update",dicktionaryController.updateDictionary);//обновление  по названию таблицы ,изменить можно только название таблицы
+dictionaryRouter.get('/get',dicktionaryController.getDictionary)
+dictionaryRouter.get('/get/:id',dicktionaryController.getDictionaryDataById)
 
 module.exports = dictionaryRouter;

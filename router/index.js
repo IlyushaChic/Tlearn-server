@@ -7,9 +7,7 @@ const authMiddleware=require('../middleware/ayth-middleware')
 
 
 router.use('/auth',authRouter)
-
-//authMiddleware 
-router.use('/dictionary',dictionaryRouter)
+router.use('/dictionary',authMiddleware,dictionaryRouter)
 router.use('/users',authMiddleware,userRouter)
 
 

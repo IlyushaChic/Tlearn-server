@@ -96,11 +96,35 @@ class DictionaryService {
         result.destroy()
       );
     });
-    cards.map((elem) => elem.destroy());
-    await collection.destroy();
+    const newCards = await Card.findAll({
+      where: { collection_id: collection.id },
+    });
+
+     newCards.map((elem) => elem.destroy());
+
+    const newCollection = await CardCollection.findOne({
+      where: { name: header },
+    });
+    await newCollection.destroy();
     return collection.name;
   }
 
+  // async removeDictionary(header) {
+  //   const collection = await CardCollection.findOne({
+  //     where: { name: header },
+  //   })
+  //   const cards = await Card.findAll({
+  //     where: { collection_id: collection.id },
+  //   })
+  //   cards.map((elem) => {
+  //     CardTranslation.findOne({ where: { card_id: elem.id } }).then((result) =>
+  //       result.destroy()
+  //     )
+  //   });
+  //   cards.map((elem) => elem.destroy())
+  //   await collection.destroy()
+  //   return collection.name;
+  // }
   async updateHeaderDictionary(oldHeader, newHeader) {
     CardCollection.update({ name: newHeader }, { where: { name: oldHeader } });
     return "success";
@@ -111,22 +135,18 @@ class DictionaryService {
     return body;
   }
 
-
-
   async getDictionaryDataById(header) {
+    const bodyById = await CardCollection.findOne({ where: { id: header } });
+    const cards = await Card.findAll({ where: { collection_id: bodyById.id } });
+    let nElems = 0;
+    cards.map((elem) => nElems++);
+    const data = {
+      id: bodyById.id,
+      collectionName: bodyById.name,
+      nElems: nElems,
+    };
 
-    const bodyById = await CardCollection.findOne({ where: {id: header,}
-    
-    })
-  const cards= await Card.findAll({where:{collection_id:bodyById.id }})
-  let nElems=0
-  cards.map(elem=>nElems++)
-  const data ={
-      id:bodyById.id,
-      collectionName:bodyById.name,
-      nElems:nElems}
-  
-  return data;
+    return data;
   }
 }
 
